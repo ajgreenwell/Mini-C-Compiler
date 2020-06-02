@@ -1,0 +1,51 @@
+mc: 15:47 3.25.2020. Compiling see.mc in debug mode.
+
+Before the lifting phase:
+
+int f(int a, int b)
+{
+  int c;
+  c =   let 
+      x0 : int =
+        let 
+            x6 : int = 2
+            x7 : int = a
+            x8 : int = +(x6, x7)
+        in
+          x8
+      x1 : int =
+        let 
+            x3 : int = 4
+            x4 : int = b
+            x5 : int = *(x3, x4)
+        in
+          x5
+      x2 : int = +(x0, x1)
+  in
+    x2
+  ;
+  return
+    c
+}
+
+After the lifting phase:
+
+int f(int a, int b)
+{
+  int c;
+  c =   let 
+      x6 : int = 2
+      x7 : int = a
+      x8 : int = +(x6, x7)
+      x0 : int = x8
+      x3 : int = 4
+      x4 : int = b
+      x5 : int = *(x3, x4)
+      x1 : int = x5
+      x2 : int = +(x0, x1)
+  in
+    x2
+  ;
+  return
+    c
+}

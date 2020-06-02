@@ -1,0 +1,281 @@
+mc: 16:55 3.27.2020. Compiling test/c.mc in debug mode.
+
+The input program is:
+
+int f(int a)
+{
+  int b;
+  int c;
+  b = +(1, *(2, 3));
+  c = *(b, 2);
+  while (>(b, 0))
+    {
+      b = -(b, 1);
+    }
+  return
+    +(b, c)
+}
+int main()
+{
+  print f(10);
+  print f(11);
+  print f(12);
+  print f(13);
+  return
+    0
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+f : int -> int
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int f(int a)
+{
+  int b;
+  int c;
+  b =   let 
+      x1 : int = 1
+      x2 : int =
+        let 
+            x4 : int = 2
+            x5 : int = 3
+            x6 : int = *(x4, x5)
+        in
+          x6
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  c =   let 
+      x7 : int = b
+      x8 : int = 2
+      x9 : int = *(x7, x8)
+  in
+    x9
+  ;
+  while (let x13 : int = b in let x14 : int = 0 in let x15 : int = >(x13, x14) in x15)
+    {
+      b =       let 
+          x10 : int = b
+          x11 : int = 1
+          x12 : int = -(x10, x11)
+      in
+        x12
+      ;
+    }
+  return
+    let 
+        x16 : int = b
+        x17 : int = c
+        x18 : int = +(x16, x17)
+    in
+      x18
+}
+int main()
+{
+  print let x19 : int = 10 in let x20 : int = f(x19) in x20;
+  print let x21 : int = 11 in let x22 : int = f(x21) in x22;
+  print let x23 : int = 12 in let x24 : int = f(x23) in x24;
+  print let x25 : int = 13 in let x26 : int = f(x25) in x26;
+  return
+    0
+}
+
+After the lifting phase:
+
+int f(int a)
+{
+  int b;
+  int c;
+  b =   let 
+      x1 : int = 1
+      x4 : int = 2
+      x5 : int = 3
+      x6 : int = *(x4, x5)
+      x2 : int = x6
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  c =   let 
+      x7 : int = b
+      x8 : int = 2
+      x9 : int = *(x7, x8)
+  in
+    x9
+  ;
+  while (let x13 : int = b in let x14 : int = 0 in let x15 : int = >(x13, x14) in x15)
+    {
+      b =       let 
+          x10 : int = b
+          x11 : int = 1
+          x12 : int = -(x10, x11)
+      in
+        x12
+      ;
+    }
+  return
+    let 
+        x16 : int = b
+        x17 : int = c
+        x18 : int = +(x16, x17)
+    in
+      x18
+}
+int main()
+{
+  print let x19 : int = 10 in let x20 : int = f(x19) in x20;
+  print let x21 : int = 11 in let x22 : int = f(x21) in x22;
+  print let x23 : int = 12 in let x24 : int = f(x23) in x24;
+  print let x25 : int = 13 in let x26 : int = f(x25) in x26;
+  return
+    0
+}
+
+After the copyprop phase:
+
+int f(int a)
+{
+  int b;
+  int c;
+  b =   let 
+      x1 : int = 1
+      x4 : int = 2
+      x5 : int = 3
+      x6 : int = *(x4, x5)
+      x3 : int = +(x1, x6)
+  in
+    x3
+  ;
+  c =   let 
+      x8 : int = 2
+      x9 : int = *(b, x8)
+  in
+    x9
+  ;
+  while (let x14 : int = 0 in let x15 : int = >(b, x14) in x15)
+    {
+      b =       let 
+          x11 : int = 1
+          x12 : int = -(b, x11)
+      in
+        x12
+      ;
+    }
+  return
+    let 
+        x18 : int = +(b, c)
+    in
+      x18
+}
+int main()
+{
+  print let x19 : int = 10 in let x20 : int = f(x19) in x20;
+  print let x21 : int = 11 in let x22 : int = f(x21) in x22;
+  print let x23 : int = 12 in let x24 : int = f(x23) in x24;
+  print let x25 : int = 13 in let x26 : int = f(x25) in x26;
+  return
+    0
+}
+
+After the control phase:
+
+f:	(a)
+	b = 0
+	c = 0
+	x1 = 1
+	x4 = 2
+	x5 = 3
+	x6 = x4 * x5
+	x3 = x1 + x6
+	b = x3
+	x8 = 2
+	x9 = b * x8
+	c = x9
+l27:	nop
+	x14 = 0
+	x15 = b > x14
+	jmpzero x15, l28
+	x11 = 1
+	x12 = b - x11
+	b = x12
+	jmp l27
+l28:	nop
+	x18 = b + c
+	x29 = x18
+	return x29
+
+main:	()
+	x19 = 10
+	x20 = call f(x19)
+	x30 = x20
+	print x30
+	x21 = 11
+	x22 = call f(x21)
+	x31 = x22
+	print x31
+	x23 = 12
+	x24 = call f(x23)
+	x32 = x24
+	print x32
+	x25 = 13
+	x26 = call f(x25)
+	x33 = x26
+	print x33
+	x34 = 0
+	return x34
+
+CG environment for f is:
+a : 2
+b : -16
+c : -11
+x1 : -3
+x11 : -14
+x12 : -15
+x14 : -12
+x15 : -13
+x18 : -17
+x29 : -18
+x3 : -7
+x4 : -4
+x5 : -5
+x6 : -6
+x8 : -9
+x9 : -10
+
+CG environment for main is:
+x19 : -1
+x20 : -2
+x21 : -4
+x22 : -5
+x23 : -7
+x24 : -8
+x25 : -10
+x26 : -11
+x30 : -3
+x31 : -6
+x32 : -9
+x33 : -12
+x34 : -13
+
+Emitting MIPS assembley code to test/c.asm
+
+

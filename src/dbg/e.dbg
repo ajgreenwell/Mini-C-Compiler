@@ -1,0 +1,357 @@
+mc: 16:56 3.27.2020. Compiling test/e.mc in debug mode.
+
+The input program is:
+
+int g(int x, int y)
+{
+  x = +(+(2, 4), 6);
+  return
+    +(x, y)
+}
+int f(int x, int y)
+{
+  x = +(+(2, 4), 6);
+  y = g(*(4, 8), *(6, 10));
+  x = +(2, 2);
+}
+int main()
+{
+  print g(1, 2);
+  print g(3, 4);
+  print g(5, 6);
+  print g(7, 8);
+  return
+    0
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+f : int * int -> int
+g : int * int -> int
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int g(int x, int y)
+{
+  x =   let 
+      x1 : int =
+        let 
+            x4 : int = 2
+            x5 : int = 4
+            x6 : int = +(x4, x5)
+        in
+          x6
+      x2 : int = 6
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  return
+    let 
+        x7 : int = x
+        x8 : int = y
+        x9 : int = +(x7, x8)
+    in
+      x9
+}
+int f(int x, int y)
+{
+  x =   let 
+      x10 : int =
+        let 
+            x13 : int = 2
+            x14 : int = 4
+            x15 : int = +(x13, x14)
+        in
+          x15
+      x11 : int = 6
+      x12 : int = +(x10, x11)
+  in
+    x12
+  ;
+  y =   let 
+      x16 : int =
+        let 
+            x22 : int = 4
+            x23 : int = 8
+            x24 : int = *(x22, x23)
+        in
+          x24
+      x17 : int =
+        let 
+            x19 : int = 6
+            x20 : int = 10
+            x21 : int = *(x19, x20)
+        in
+          x21
+      x18 : int = g(x16, x17)
+  in
+    x18
+  ;
+  x =   let 
+      x25 : int = 2
+      x26 : int = 2
+      x27 : int = +(x25, x26)
+  in
+    x27
+  ;
+}
+int main()
+{
+  print let x28 : int = 1 in let x29 : int = 2 in let x30 : int = g(x28, x29) in x30;
+  print let x31 : int = 3 in let x32 : int = 4 in let x33 : int = g(x31, x32) in x33;
+  print let x34 : int = 5 in let x35 : int = 6 in let x36 : int = g(x34, x35) in x36;
+  print let x37 : int = 7 in let x38 : int = 8 in let x39 : int = g(x37, x38) in x39;
+  return
+    0
+}
+
+After the lifting phase:
+
+int g(int x, int y)
+{
+  x =   let 
+      x4 : int = 2
+      x5 : int = 4
+      x6 : int = +(x4, x5)
+      x1 : int = x6
+      x2 : int = 6
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  return
+    let 
+        x7 : int = x
+        x8 : int = y
+        x9 : int = +(x7, x8)
+    in
+      x9
+}
+int f(int x, int y)
+{
+  x =   let 
+      x13 : int = 2
+      x14 : int = 4
+      x15 : int = +(x13, x14)
+      x10 : int = x15
+      x11 : int = 6
+      x12 : int = +(x10, x11)
+  in
+    x12
+  ;
+  y =   let 
+      x22 : int = 4
+      x23 : int = 8
+      x24 : int = *(x22, x23)
+      x16 : int = x24
+      x19 : int = 6
+      x20 : int = 10
+      x21 : int = *(x19, x20)
+      x17 : int = x21
+      x18 : int = g(x16, x17)
+  in
+    x18
+  ;
+  x =   let 
+      x25 : int = 2
+      x26 : int = 2
+      x27 : int = +(x25, x26)
+  in
+    x27
+  ;
+}
+int main()
+{
+  print let x28 : int = 1 in let x29 : int = 2 in let x30 : int = g(x28, x29) in x30;
+  print let x31 : int = 3 in let x32 : int = 4 in let x33 : int = g(x31, x32) in x33;
+  print let x34 : int = 5 in let x35 : int = 6 in let x36 : int = g(x34, x35) in x36;
+  print let x37 : int = 7 in let x38 : int = 8 in let x39 : int = g(x37, x38) in x39;
+  return
+    0
+}
+
+After the copyprop phase:
+
+int g(int x, int y)
+{
+  x =   let 
+      x4 : int = 2
+      x5 : int = 4
+      x6 : int = +(x4, x5)
+      x2 : int = 6
+      x3 : int = +(x6, x2)
+  in
+    x3
+  ;
+  return
+    let 
+        x9 : int = +(x, y)
+    in
+      x9
+}
+int f(int x, int y)
+{
+  x =   let 
+      x13 : int = 2
+      x14 : int = 4
+      x15 : int = +(x13, x14)
+      x11 : int = 6
+      x12 : int = +(x15, x11)
+  in
+    x12
+  ;
+  y =   let 
+      x22 : int = 4
+      x23 : int = 8
+      x24 : int = *(x22, x23)
+      x19 : int = 6
+      x20 : int = 10
+      x21 : int = *(x19, x20)
+      x18 : int = g(x24, x21)
+  in
+    x18
+  ;
+  x =   let 
+      x25 : int = 2
+      x26 : int = 2
+      x27 : int = +(x25, x26)
+  in
+    x27
+  ;
+}
+int main()
+{
+  print let x28 : int = 1 in let x29 : int = 2 in let x30 : int = g(x28, x29) in x30;
+  print let x31 : int = 3 in let x32 : int = 4 in let x33 : int = g(x31, x32) in x33;
+  print let x34 : int = 5 in let x35 : int = 6 in let x36 : int = g(x34, x35) in x36;
+  print let x37 : int = 7 in let x38 : int = 8 in let x39 : int = g(x37, x38) in x39;
+  return
+    0
+}
+
+After the control phase:
+
+g:	(x, y)
+	x4 = 2
+	x5 = 4
+	x6 = x4 + x5
+	x2 = 6
+	x3 = x6 + x2
+	x = x3
+	x9 = x + y
+	x40 = x9
+	return x40
+
+f:	(x, y)
+	x13 = 2
+	x14 = 4
+	x15 = x13 + x14
+	x11 = 6
+	x12 = x15 + x11
+	x = x12
+	x22 = 4
+	x23 = 8
+	x24 = x22 * x23
+	x19 = 6
+	x20 = 10
+	x21 = x19 * x20
+	x18 = call g(x24, x21)
+	y = x18
+	x25 = 2
+	x26 = 2
+	x27 = x25 + x26
+	x = x27
+
+main:	()
+	x28 = 1
+	x29 = 2
+	x30 = call g(x28, x29)
+	x41 = x30
+	print x41
+	x31 = 3
+	x32 = 4
+	x33 = call g(x31, x32)
+	x42 = x33
+	print x42
+	x34 = 5
+	x35 = 6
+	x36 = call g(x34, x35)
+	x43 = x36
+	print x43
+	x37 = 7
+	x38 = 8
+	x39 = call g(x37, x38)
+	x44 = x39
+	print x44
+	x45 = 0
+	return x45
+
+CG environment for g is:
+x : 3
+x2 : -4
+x3 : -5
+x4 : -1
+x40 : -7
+x5 : -2
+x6 : -3
+x9 : -6
+y : 2
+
+CG environment for f is:
+x : 3
+x11 : -4
+x12 : -5
+x13 : -1
+x14 : -2
+x15 : -3
+x18 : -12
+x19 : -9
+x20 : -10
+x21 : -11
+x22 : -6
+x23 : -7
+x24 : -8
+x25 : -13
+x26 : -14
+x27 : -15
+y : 2
+
+CG environment for main is:
+x28 : -1
+x29 : -2
+x30 : -3
+x31 : -5
+x32 : -6
+x33 : -7
+x34 : -9
+x35 : -10
+x36 : -11
+x37 : -13
+x38 : -14
+x39 : -15
+x41 : -4
+x42 : -8
+x43 : -12
+x44 : -16
+x45 : -17
+
+Emitting MIPS assembley code to test/e.asm
+
+

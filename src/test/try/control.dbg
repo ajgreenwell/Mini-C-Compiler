@@ -1,0 +1,264 @@
+mc: 14:27 2.22.2019. Compiling control.mc in debug mode.
+
+The input program is:
+
+int f(int a)
+{
+  int c;
+  if (<(a, 7)) then
+    {
+      c = +(a, 3);
+    }
+  else
+    {
+      c = +(a, 4);
+    }
+  return
+    c
+}
+int main()
+{
+  int ans;
+  ans = f(8);
+  print ans;
+  return
+    1
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+f : int -> int
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int f(int a)
+{
+  int c;
+  if (  let 
+      x6 : int = a
+      x7 : int = 7
+      x8 : int = <(x6, x7)
+  in
+    x8
+  ) then
+    {
+      c =       let 
+          x3 : int = a
+          x4 : int = 3
+          x5 : int = +(x3, x4)
+      in
+        x5
+      ;
+    }
+  else
+    {
+      c =       let 
+          x0 : int = a
+          x1 : int = 4
+          x2 : int = +(x0, x1)
+      in
+        x2
+      ;
+    }
+  return
+    c
+}
+int main()
+{
+  int ans;
+  ans =   let 
+      x9 : int = 8
+      x10 : int = f(x9)
+  in
+    x10
+  ;
+  print ans;
+  return
+    1
+}
+
+After the lifting phase:
+
+int f(int a)
+{
+  int c;
+  if (  let 
+      x6 : int = a
+      x7 : int = 7
+      x8 : int = <(x6, x7)
+  in
+    x8
+  ) then
+    {
+      c =       let 
+          x3 : int = a
+          x4 : int = 3
+          x5 : int = +(x3, x4)
+      in
+        x5
+      ;
+    }
+  else
+    {
+      c =       let 
+          x0 : int = a
+          x1 : int = 4
+          x2 : int = +(x0, x1)
+      in
+        x2
+      ;
+    }
+  return
+    c
+}
+int main()
+{
+  int ans;
+  ans =   let 
+      x9 : int = 8
+      x10 : int = f(x9)
+  in
+    x10
+  ;
+  print ans;
+  return
+    1
+}
+
+After the copyprop phase:
+
+int f(int a)
+{
+  int c;
+  if (  let 
+      x7 : int = 7
+      x8 : int = <(a, x7)
+  in
+    x8
+  ) then
+    {
+      c =       let 
+          x4 : int = 3
+          x5 : int = +(a, x4)
+      in
+        x5
+      ;
+    }
+  else
+    {
+      c =       let 
+          x1 : int = 4
+          x2 : int = +(a, x1)
+      in
+        x2
+      ;
+    }
+  return
+    c
+}
+int main()
+{
+  int ans;
+  ans =   let 
+      x9 : int = 8
+      x10 : int = f(x9)
+  in
+    x10
+  ;
+  print ans;
+  return
+    1
+}
+
+After the control phase:
+
+f:	(a)
+	c = 0
+	x7 = 7
+	x8 = a < x7
+	jmpzero x8, l0
+	x4 = 3
+	x5 = a + x4
+	c = x5
+	jmp l1
+l0:	nop
+	x1 = 4
+	x2 = a + x1
+	c = x2
+l1:	nop
+	x11 = c
+	return x11
+
+main:	()
+	ans = 0
+	x9 = 8
+	x10 = call f(x9)
+	ans = x10
+	x12 = ans
+	print x12
+	x13 = 1
+	return x13
+
+CG environment is:
+% : not working ... 
+* : not working ... 
+** : not working ... 
++ : not working ... 
+- : not working ... 
+/ : not working ... 
+< : not working ... 
+<= : not working ... 
+<> : not working ... 
+== : not working ... 
+> : not working ... 
+>= : not working ... 
+a : not working ... 
+c : not working ... 
+not : not working ... 
+x1 : not working ... 
+x11 : not working ... 
+x2 : not working ... 
+x4 : not working ... 
+x5 : not working ... 
+x7 : not working ... 
+x8 : not working ... 
+
+CG environment is:
+% : not working ... 
+* : not working ... 
+** : not working ... 
++ : not working ... 
+- : not working ... 
+/ : not working ... 
+< : not working ... 
+<= : not working ... 
+<> : not working ... 
+== : not working ... 
+> : not working ... 
+>= : not working ... 
+ans : not working ... 
+not : not working ... 
+x10 : not working ... 
+x12 : not working ... 
+x13 : not working ... 
+x9 : not working ... 
+
+Emitting MIPS assembley code to control.asm
+
+

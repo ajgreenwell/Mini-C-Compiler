@@ -1,0 +1,488 @@
+mc: 16:56 3.27.2020. Compiling test/cond1.mc in debug mode.
+
+The input program is:
+
+bool gt(int a, int b)
+{
+  return
+    >(a, b)
+}
+bool geq(int a, int b)
+{
+  return
+    >=(a, b)
+}
+bool lt(int a, int b)
+{
+  return
+    <(a, b)
+}
+bool leq(int a, int b)
+{
+  return
+    <=(a, b)
+}
+int main()
+{
+  if (gt(3, 2)) then
+    {
+      print 1;
+    }
+  else
+    {
+      if (geq(2, 3)) then
+        {
+          print 2;
+        }
+      else
+        {
+          if (lt(2, 3)) then
+            {
+              print 3;
+            }
+          else
+            {
+              if (leq(2, 3)) then
+                {
+                  print 4;
+                }
+              else
+                {
+                  print 5;
+                }
+            }
+        }
+    }
+  return
+    0
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+geq : int * int -> bool
+gt : int * int -> bool
+leq : int * int -> bool
+lt : int * int -> bool
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+bool gt(int a, int b)
+{
+  return
+    let 
+        x1 : int = a
+        x2 : int = b
+        x3 : int = >(x1, x2)
+    in
+      x3
+}
+bool geq(int a, int b)
+{
+  return
+    let 
+        x4 : int = a
+        x5 : int = b
+        x6 : int = >=(x4, x5)
+    in
+      x6
+}
+bool lt(int a, int b)
+{
+  return
+    let 
+        x7 : int = a
+        x8 : int = b
+        x9 : int = <(x7, x8)
+    in
+      x9
+}
+bool leq(int a, int b)
+{
+  return
+    let 
+        x10 : int = a
+        x11 : int = b
+        x12 : int = <=(x10, x11)
+    in
+      x12
+}
+int main()
+{
+  if (  let 
+      x22 : int = 3
+      x23 : int = 2
+      x24 : int = gt(x22, x23)
+  in
+    x24
+  ) then
+    {
+      print 1;
+    }
+  else
+    {
+      if (      let 
+          x19 : int = 2
+          x20 : int = 3
+          x21 : int = geq(x19, x20)
+      in
+        x21
+      ) then
+        {
+          print 2;
+        }
+      else
+        {
+          if (          let 
+              x16 : int = 2
+              x17 : int = 3
+              x18 : int = lt(x16, x17)
+          in
+            x18
+          ) then
+            {
+              print 3;
+            }
+          else
+            {
+              if (              let 
+                  x13 : int = 2
+                  x14 : int = 3
+                  x15 : int = leq(x13, x14)
+              in
+                x15
+              ) then
+                {
+                  print 4;
+                }
+              else
+                {
+                  print 5;
+                }
+            }
+        }
+    }
+  return
+    0
+}
+
+After the lifting phase:
+
+bool gt(int a, int b)
+{
+  return
+    let 
+        x1 : int = a
+        x2 : int = b
+        x3 : int = >(x1, x2)
+    in
+      x3
+}
+bool geq(int a, int b)
+{
+  return
+    let 
+        x4 : int = a
+        x5 : int = b
+        x6 : int = >=(x4, x5)
+    in
+      x6
+}
+bool lt(int a, int b)
+{
+  return
+    let 
+        x7 : int = a
+        x8 : int = b
+        x9 : int = <(x7, x8)
+    in
+      x9
+}
+bool leq(int a, int b)
+{
+  return
+    let 
+        x10 : int = a
+        x11 : int = b
+        x12 : int = <=(x10, x11)
+    in
+      x12
+}
+int main()
+{
+  if (  let 
+      x22 : int = 3
+      x23 : int = 2
+      x24 : int = gt(x22, x23)
+  in
+    x24
+  ) then
+    {
+      print 1;
+    }
+  else
+    {
+      if (      let 
+          x19 : int = 2
+          x20 : int = 3
+          x21 : int = geq(x19, x20)
+      in
+        x21
+      ) then
+        {
+          print 2;
+        }
+      else
+        {
+          if (          let 
+              x16 : int = 2
+              x17 : int = 3
+              x18 : int = lt(x16, x17)
+          in
+            x18
+          ) then
+            {
+              print 3;
+            }
+          else
+            {
+              if (              let 
+                  x13 : int = 2
+                  x14 : int = 3
+                  x15 : int = leq(x13, x14)
+              in
+                x15
+              ) then
+                {
+                  print 4;
+                }
+              else
+                {
+                  print 5;
+                }
+            }
+        }
+    }
+  return
+    0
+}
+
+After the copyprop phase:
+
+bool gt(int a, int b)
+{
+  return
+    let 
+        x3 : int = >(a, b)
+    in
+      x3
+}
+bool geq(int a, int b)
+{
+  return
+    let 
+        x6 : int = >=(a, b)
+    in
+      x6
+}
+bool lt(int a, int b)
+{
+  return
+    let 
+        x9 : int = <(a, b)
+    in
+      x9
+}
+bool leq(int a, int b)
+{
+  return
+    let 
+        x12 : int = <=(a, b)
+    in
+      x12
+}
+int main()
+{
+  if (  let 
+      x22 : int = 3
+      x23 : int = 2
+      x24 : int = gt(x22, x23)
+  in
+    x24
+  ) then
+    {
+      print 1;
+    }
+  else
+    {
+      if (      let 
+          x19 : int = 2
+          x20 : int = 3
+          x21 : int = geq(x19, x20)
+      in
+        x21
+      ) then
+        {
+          print 2;
+        }
+      else
+        {
+          if (          let 
+              x16 : int = 2
+              x17 : int = 3
+              x18 : int = lt(x16, x17)
+          in
+            x18
+          ) then
+            {
+              print 3;
+            }
+          else
+            {
+              if (              let 
+                  x13 : int = 2
+                  x14 : int = 3
+                  x15 : int = leq(x13, x14)
+              in
+                x15
+              ) then
+                {
+                  print 4;
+                }
+              else
+                {
+                  print 5;
+                }
+            }
+        }
+    }
+  return
+    0
+}
+
+After the control phase:
+
+gt:	(a, b)
+	x3 = a > b
+	x25 = x3
+	return x25
+
+geq:	(a, b)
+	x6 = a >= b
+	x26 = x6
+	return x26
+
+lt:	(a, b)
+	x9 = a < b
+	x27 = x9
+	return x27
+
+leq:	(a, b)
+	x12 = a <= b
+	x28 = x12
+	return x28
+
+main:	()
+	x22 = 3
+	x23 = 2
+	x24 = call gt(x22, x23)
+	jmpzero x24, l29
+	x41 = 1
+	print x41
+	jmp l30
+l29:	nop
+	x19 = 2
+	x20 = 3
+	x21 = call geq(x19, x20)
+	jmpzero x21, l31
+	x40 = 2
+	print x40
+	jmp l32
+l31:	nop
+	x16 = 2
+	x17 = 3
+	x18 = call lt(x16, x17)
+	jmpzero x18, l33
+	x39 = 3
+	print x39
+	jmp l34
+l33:	nop
+	x13 = 2
+	x14 = 3
+	x15 = call leq(x13, x14)
+	jmpzero x15, l35
+	x38 = 4
+	print x38
+	jmp l36
+l35:	nop
+	x37 = 5
+	print x37
+l36:	nop
+l34:	nop
+l32:	nop
+l30:	nop
+	x42 = 0
+	return x42
+
+CG environment for gt is:
+a : 3
+b : 2
+x25 : -2
+x3 : -1
+
+CG environment for geq is:
+a : 3
+b : 2
+x26 : -2
+x6 : -1
+
+CG environment for lt is:
+a : 3
+b : 2
+x27 : -2
+x9 : -1
+
+CG environment for leq is:
+a : 3
+b : 2
+x12 : -1
+x28 : -2
+
+CG environment for main is:
+x13 : -13
+x14 : -14
+x15 : -15
+x16 : -9
+x17 : -10
+x18 : -11
+x19 : -5
+x20 : -6
+x21 : -7
+x22 : -1
+x23 : -2
+x24 : -3
+x37 : -17
+x38 : -16
+x39 : -12
+x40 : -8
+x41 : -4
+x42 : -18
+
+Emitting MIPS assembley code to test/cond1.asm
+
+

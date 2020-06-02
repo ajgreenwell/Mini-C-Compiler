@@ -1,0 +1,406 @@
+mc: 16:56 3.27.2020. Compiling test/d.mc in debug mode.
+
+The input program is:
+
+int f(int x)
+{
+  return
+    x
+}
+int g(int x, int y)
+{
+  if (==(y, 3)) then
+    return
+      0
+  else
+    {
+      int a;
+      bool b;
+      a = 0;
+      b = true;
+      while ((b and true))
+        {
+          int c;
+          c = +(a, 1);
+          print a;
+          b = false;
+        }
+      if (true) then
+        return
+          *(3, 12)
+      else
+        return
+          +(f(3), g(2, 3))
+    }
+}
+int main()
+{
+  return
+    +(g(2, 2), g(2, 3))
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+f : int -> int
+g : int * int -> int
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int f(int x)
+{
+  return
+    x
+}
+int g(int x, int y)
+{
+  if (  let 
+      x16 : int = y
+      x17 : int = 3
+      x18 : int = ==(x16, x17)
+  in
+    x18
+  ) then
+    return
+      0
+  else
+    {
+      int a;
+      bool b;
+      a = 0;
+      b = true;
+      while (let x4 : bool = b in if0 x4 then true else x4)
+        {
+          int c;
+          c =           let 
+              x1 : int = a
+              x2 : int = 1
+              x3 : int = +(x1, x2)
+          in
+            x3
+          ;
+          print a;
+          b = false;
+        }
+      if (true) then
+        return
+          let 
+              x13 : int = 3
+              x14 : int = 12
+              x15 : int = *(x13, x14)
+          in
+            x15
+      else
+        return
+          let 
+              x5 : int =
+                let 
+                    x11 : int = 3
+                    x12 : int = f(x11)
+                in
+                  x12
+              x6 : int =
+                let 
+                    x8 : int = 2
+                    x9 : int = 3
+                    x10 : int = g(x8, x9)
+                in
+                  x10
+              x7 : int = +(x5, x6)
+          in
+            x7
+    }
+}
+int main()
+{
+  return
+    let 
+        x19 : int =
+          let 
+              x25 : int = 2
+              x26 : int = 2
+              x27 : int = g(x25, x26)
+          in
+            x27
+        x20 : int =
+          let 
+              x22 : int = 2
+              x23 : int = 3
+              x24 : int = g(x22, x23)
+          in
+            x24
+        x21 : int = +(x19, x20)
+    in
+      x21
+}
+
+After the lifting phase:
+
+int f(int x)
+{
+  return
+    x
+}
+int g(int x, int y)
+{
+  if (  let 
+      x16 : int = y
+      x17 : int = 3
+      x18 : int = ==(x16, x17)
+  in
+    x18
+  ) then
+    return
+      0
+  else
+    {
+      int a;
+      bool b;
+      a = 0;
+      b = true;
+      while (let x4 : bool = b in if0 x4 then true else x4)
+        {
+          int c;
+          c =           let 
+              x1 : int = a
+              x2 : int = 1
+              x3 : int = +(x1, x2)
+          in
+            x3
+          ;
+          print a;
+          b = false;
+        }
+      if (true) then
+        return
+          let 
+              x13 : int = 3
+              x14 : int = 12
+              x15 : int = *(x13, x14)
+          in
+            x15
+      else
+        return
+          let 
+              x11 : int = 3
+              x12 : int = f(x11)
+              x5 : int = x12
+              x8 : int = 2
+              x9 : int = 3
+              x10 : int = g(x8, x9)
+              x6 : int = x10
+              x7 : int = +(x5, x6)
+          in
+            x7
+    }
+}
+int main()
+{
+  return
+    let 
+        x25 : int = 2
+        x26 : int = 2
+        x27 : int = g(x25, x26)
+        x19 : int = x27
+        x22 : int = 2
+        x23 : int = 3
+        x24 : int = g(x22, x23)
+        x20 : int = x24
+        x21 : int = +(x19, x20)
+    in
+      x21
+}
+
+After the copyprop phase:
+
+int f(int x)
+{
+  return
+    x
+}
+int g(int x, int y)
+{
+  if (  let 
+      x17 : int = 3
+      x18 : int = ==(y, x17)
+  in
+    x18
+  ) then
+    return
+      0
+  else
+    {
+      int a;
+      bool b;
+      a = 0;
+      b = true;
+      while (if0 b then true else b)
+        {
+          int c;
+          c =           let 
+              x2 : int = 1
+              x3 : int = +(a, x2)
+          in
+            x3
+          ;
+          print a;
+          b = false;
+        }
+      if (true) then
+        return
+          let 
+              x13 : int = 3
+              x14 : int = 12
+              x15 : int = *(x13, x14)
+          in
+            x15
+      else
+        return
+          let 
+              x11 : int = 3
+              x12 : int = f(x11)
+              x8 : int = 2
+              x9 : int = 3
+              x10 : int = g(x8, x9)
+              x7 : int = +(x12, x10)
+          in
+            x7
+    }
+}
+int main()
+{
+  return
+    let 
+        x25 : int = 2
+        x26 : int = 2
+        x27 : int = g(x25, x26)
+        x22 : int = 2
+        x23 : int = 3
+        x24 : int = g(x22, x23)
+        x21 : int = +(x27, x24)
+    in
+      x21
+}
+
+After the control phase:
+
+f:	(x)
+	x28 = x
+	return x28
+
+g:	(x, y)
+	x17 = 3
+	x18 = y == x17
+	jmpzero x18, l29
+	x41 = 0
+	return x41
+	jmp l30
+l29:	nop
+	a = 0
+	b = 0
+	a = 0
+	b = 1
+l34:	nop
+	jmpzero b, l32
+	x31 = 1
+	jmp l33
+l32:	nop
+	x31 = b
+l33:	nop
+	jmpzero x31, l35
+	c = 0
+	x2 = 1
+	x3 = a + x2
+	c = x3
+	x36 = a
+	print x36
+	b = 0
+	jmp l34
+l35:	nop
+	jmpzero 1, l37
+	x13 = 3
+	x14 = 12
+	x15 = x13 * x14
+	x40 = x15
+	return x40
+	jmp l38
+l37:	nop
+	x11 = 3
+	x12 = call f(x11)
+	x8 = 2
+	x9 = 3
+	x10 = call g(x8, x9)
+	x7 = x12 + x10
+	x39 = x7
+	return x39
+l38:	nop
+l30:	nop
+
+main:	()
+	x25 = 2
+	x26 = 2
+	x27 = call g(x25, x26)
+	x22 = 2
+	x23 = 3
+	x24 = call g(x22, x23)
+	x21 = x27 + x24
+	x42 = x21
+	return x42
+
+CG environment for f is:
+x : 2
+x28 : -1
+
+CG environment for g is:
+a : -6
+b : -15
+c : -13
+x : 3
+x10 : -24
+x11 : -20
+x12 : -21
+x13 : -16
+x14 : -17
+x15 : -18
+x17 : -1
+x18 : -2
+x2 : -11
+x3 : -12
+x31 : -9
+x36 : -14
+x39 : -26
+x40 : -19
+x41 : -3
+x7 : -25
+x8 : -22
+x9 : -23
+y : 2
+
+CG environment for main is:
+x21 : -7
+x22 : -4
+x23 : -5
+x24 : -6
+x25 : -1
+x26 : -2
+x27 : -3
+x42 : -8
+
+Emitting MIPS assembley code to test/d.asm
+
+

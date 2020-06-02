@@ -1,0 +1,290 @@
+mc: 16:56 3.27.2020. Compiling test/basic_ops.mc in debug mode.
+
+The input program is:
+
+int main()
+{
+  int x;
+  x = +(1, 2);
+  print x;
+  print +(1, 2);
+  x = -(3, 4);
+  print x;
+  print -(3, 4);
+  x = *(5, 6);
+  print x;
+  x = /(37, 8);
+  print x;
+  print /(37, 8);
+  x = %(37, 8);
+  print x;
+  return
+    0
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int main()
+{
+  int x;
+  x =   let 
+      x1 : int = 1
+      x2 : int = 2
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  print x;
+  print let x4 : int = 1 in let x5 : int = 2 in let x6 : int = +(x4, x5) in x6;
+  x =   let 
+      x7 : int = 3
+      x8 : int = 4
+      x9 : int = -(x7, x8)
+  in
+    x9
+  ;
+  print x;
+  print let x10 : int = 3 in let x11 : int = 4 in let x12 : int = -(x10, x11) in x12;
+  x =   let 
+      x13 : int = 5
+      x14 : int = 6
+      x15 : int = *(x13, x14)
+  in
+    x15
+  ;
+  print x;
+  x =   let 
+      x16 : int = 37
+      x17 : int = 8
+      x18 : int = /(x16, x17)
+  in
+    x18
+  ;
+  print x;
+  print let x19 : int = 37 in let x20 : int = 8 in let x21 : int = /(x19, x20) in x21;
+  x =   let 
+      x22 : int = 37
+      x23 : int = 8
+      x24 : int = %(x22, x23)
+  in
+    x24
+  ;
+  print x;
+  return
+    0
+}
+
+After the lifting phase:
+
+int main()
+{
+  int x;
+  x =   let 
+      x1 : int = 1
+      x2 : int = 2
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  print x;
+  print let x4 : int = 1 in let x5 : int = 2 in let x6 : int = +(x4, x5) in x6;
+  x =   let 
+      x7 : int = 3
+      x8 : int = 4
+      x9 : int = -(x7, x8)
+  in
+    x9
+  ;
+  print x;
+  print let x10 : int = 3 in let x11 : int = 4 in let x12 : int = -(x10, x11) in x12;
+  x =   let 
+      x13 : int = 5
+      x14 : int = 6
+      x15 : int = *(x13, x14)
+  in
+    x15
+  ;
+  print x;
+  x =   let 
+      x16 : int = 37
+      x17 : int = 8
+      x18 : int = /(x16, x17)
+  in
+    x18
+  ;
+  print x;
+  print let x19 : int = 37 in let x20 : int = 8 in let x21 : int = /(x19, x20) in x21;
+  x =   let 
+      x22 : int = 37
+      x23 : int = 8
+      x24 : int = %(x22, x23)
+  in
+    x24
+  ;
+  print x;
+  return
+    0
+}
+
+After the copyprop phase:
+
+int main()
+{
+  int x;
+  x =   let 
+      x1 : int = 1
+      x2 : int = 2
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  print x;
+  print let x4 : int = 1 in let x5 : int = 2 in let x6 : int = +(x4, x5) in x6;
+  x =   let 
+      x7 : int = 3
+      x8 : int = 4
+      x9 : int = -(x7, x8)
+  in
+    x9
+  ;
+  print x;
+  print let x10 : int = 3 in let x11 : int = 4 in let x12 : int = -(x10, x11) in x12;
+  x =   let 
+      x13 : int = 5
+      x14 : int = 6
+      x15 : int = *(x13, x14)
+  in
+    x15
+  ;
+  print x;
+  x =   let 
+      x16 : int = 37
+      x17 : int = 8
+      x18 : int = /(x16, x17)
+  in
+    x18
+  ;
+  print x;
+  print let x19 : int = 37 in let x20 : int = 8 in let x21 : int = /(x19, x20) in x21;
+  x =   let 
+      x22 : int = 37
+      x23 : int = 8
+      x24 : int = %(x22, x23)
+  in
+    x24
+  ;
+  print x;
+  return
+    0
+}
+
+After the control phase:
+
+main:	()
+	x = 0
+	x1 = 1
+	x2 = 2
+	x3 = x1 + x2
+	x = x3
+	x25 = x
+	print x25
+	x4 = 1
+	x5 = 2
+	x6 = x4 + x5
+	x26 = x6
+	print x26
+	x7 = 3
+	x8 = 4
+	x9 = x7 - x8
+	x = x9
+	x27 = x
+	print x27
+	x10 = 3
+	x11 = 4
+	x12 = x10 - x11
+	x28 = x12
+	print x28
+	x13 = 5
+	x14 = 6
+	x15 = x13 * x14
+	x = x15
+	x29 = x
+	print x29
+	x16 = 37
+	x17 = 8
+	x18 = x16 / x17
+	x = x18
+	x30 = x
+	print x30
+	x19 = 37
+	x20 = 8
+	x21 = x19 / x20
+	x31 = x21
+	print x31
+	x22 = 37
+	x23 = 8
+	x24 = x22 % x23
+	x = x24
+	x32 = x
+	print x32
+	x33 = 0
+	return x33
+
+CG environment for main is:
+x : -37
+x1 : -2
+x10 : -16
+x11 : -17
+x12 : -18
+x13 : -20
+x14 : -21
+x15 : -22
+x16 : -25
+x17 : -26
+x18 : -27
+x19 : -30
+x2 : -3
+x20 : -31
+x21 : -32
+x22 : -34
+x23 : -35
+x24 : -36
+x25 : -6
+x26 : -10
+x27 : -15
+x28 : -19
+x29 : -24
+x3 : -4
+x30 : -29
+x31 : -33
+x32 : -38
+x33 : -39
+x4 : -7
+x5 : -8
+x6 : -9
+x7 : -11
+x8 : -12
+x9 : -13
+
+Emitting MIPS assembley code to test/basic_ops.asm
+
+

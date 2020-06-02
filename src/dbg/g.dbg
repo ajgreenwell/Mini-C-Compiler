@@ -1,0 +1,217 @@
+mc: 16:57 3.27.2020. Compiling test/g.mc in debug mode.
+
+The input program is:
+
+int f(int x)
+{
+  return
+    +(x, 1)
+}
+int g(int a, int b)
+{
+  b = f(*(a, 2));
+  return
+    b
+}
+int main()
+{
+  print g(5, 6);
+  print g(7, 8);
+  print g(100, 101);
+  return
+    0
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+f : int -> int
+g : int * int -> int
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int f(int x)
+{
+  return
+    let 
+        x1 : int = x
+        x2 : int = 1
+        x3 : int = +(x1, x2)
+    in
+      x3
+}
+int g(int a, int b)
+{
+  b =   let 
+      x4 : int =
+        let 
+            x6 : int = a
+            x7 : int = 2
+            x8 : int = *(x6, x7)
+        in
+          x8
+      x5 : int = f(x4)
+  in
+    x5
+  ;
+  return
+    b
+}
+int main()
+{
+  print let x9 : int = 5 in let x10 : int = 6 in let x11 : int = g(x9, x10) in x11;
+  print let x12 : int = 7 in let x13 : int = 8 in let x14 : int = g(x12, x13) in x14;
+  print let x15 : int = 100 in let x16 : int = 101 in let x17 : int = g(x15, x16) in x17;
+  return
+    0
+}
+
+After the lifting phase:
+
+int f(int x)
+{
+  return
+    let 
+        x1 : int = x
+        x2 : int = 1
+        x3 : int = +(x1, x2)
+    in
+      x3
+}
+int g(int a, int b)
+{
+  b =   let 
+      x6 : int = a
+      x7 : int = 2
+      x8 : int = *(x6, x7)
+      x4 : int = x8
+      x5 : int = f(x4)
+  in
+    x5
+  ;
+  return
+    b
+}
+int main()
+{
+  print let x9 : int = 5 in let x10 : int = 6 in let x11 : int = g(x9, x10) in x11;
+  print let x12 : int = 7 in let x13 : int = 8 in let x14 : int = g(x12, x13) in x14;
+  print let x15 : int = 100 in let x16 : int = 101 in let x17 : int = g(x15, x16) in x17;
+  return
+    0
+}
+
+After the copyprop phase:
+
+int f(int x)
+{
+  return
+    let 
+        x2 : int = 1
+        x3 : int = +(x, x2)
+    in
+      x3
+}
+int g(int a, int b)
+{
+  b =   let 
+      x7 : int = 2
+      x8 : int = *(a, x7)
+      x5 : int = f(x8)
+  in
+    x5
+  ;
+  return
+    b
+}
+int main()
+{
+  print let x9 : int = 5 in let x10 : int = 6 in let x11 : int = g(x9, x10) in x11;
+  print let x12 : int = 7 in let x13 : int = 8 in let x14 : int = g(x12, x13) in x14;
+  print let x15 : int = 100 in let x16 : int = 101 in let x17 : int = g(x15, x16) in x17;
+  return
+    0
+}
+
+After the control phase:
+
+f:	(x)
+	x2 = 1
+	x3 = x + x2
+	x18 = x3
+	return x18
+
+g:	(a, b)
+	x7 = 2
+	x8 = a * x7
+	x5 = call f(x8)
+	b = x5
+	x19 = b
+	return x19
+
+main:	()
+	x9 = 5
+	x10 = 6
+	x11 = call g(x9, x10)
+	x20 = x11
+	print x20
+	x12 = 7
+	x13 = 8
+	x14 = call g(x12, x13)
+	x21 = x14
+	print x21
+	x15 = 100
+	x16 = 101
+	x17 = call g(x15, x16)
+	x22 = x17
+	print x22
+	x23 = 0
+	return x23
+
+CG environment for f is:
+x : 2
+x18 : -3
+x2 : -1
+x3 : -2
+
+CG environment for g is:
+a : 3
+b : 2
+x19 : -4
+x5 : -3
+x7 : -1
+x8 : -2
+
+CG environment for main is:
+x10 : -2
+x11 : -3
+x12 : -5
+x13 : -6
+x14 : -7
+x15 : -9
+x16 : -10
+x17 : -11
+x20 : -4
+x21 : -8
+x22 : -12
+x23 : -13
+x9 : -1
+
+Emitting MIPS assembley code to test/g.asm
+
+

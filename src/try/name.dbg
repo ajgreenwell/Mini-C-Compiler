@@ -1,0 +1,39 @@
+mc: 15:46 3.25.2020. Compiling see.mc in debug mode.
+
+Before the naming phase:
+
+int f(int a, int b)
+{
+  int c;
+  c = +(+(2, a), *(4, b));
+  return
+    c
+}
+
+After the naming phase:
+
+int f(int a, int b)
+{
+  int c;
+  c =   let 
+      x1 : int =
+        let 
+            x7 : int = 2
+            x8 : int = a
+            x9 : int = +(x7, x8)
+        in
+          x9
+      x2 : int =
+        let 
+            x4 : int = 4
+            x5 : int = b
+            x6 : int = *(x4, x5)
+        in
+          x6
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  return
+    c
+}

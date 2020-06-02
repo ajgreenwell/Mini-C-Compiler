@@ -1,0 +1,123 @@
+mc: 16:56 3.27.2020. Compiling test/f.mc in debug mode.
+
+The input program is:
+
+int main()
+{
+  int b;
+  int a;
+  a = 4;
+  b = +(2, *(a, 8));
+  return
+    b
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int main()
+{
+  int b;
+  int a;
+  a = 4;
+  b =   let 
+      x1 : int = 2
+      x2 : int =
+        let 
+            x4 : int = a
+            x5 : int = 8
+            x6 : int = *(x4, x5)
+        in
+          x6
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  return
+    b
+}
+
+After the lifting phase:
+
+int main()
+{
+  int b;
+  int a;
+  a = 4;
+  b =   let 
+      x1 : int = 2
+      x4 : int = a
+      x5 : int = 8
+      x6 : int = *(x4, x5)
+      x2 : int = x6
+      x3 : int = +(x1, x2)
+  in
+    x3
+  ;
+  return
+    b
+}
+
+After the copyprop phase:
+
+int main()
+{
+  int b;
+  int a;
+  a = 4;
+  b =   let 
+      x1 : int = 2
+      x5 : int = 8
+      x6 : int = *(a, x5)
+      x3 : int = +(x1, x6)
+  in
+    x3
+  ;
+  return
+    b
+}
+
+After the control phase:
+
+main:	()
+	b = 0
+	a = 0
+	a = 4
+	x1 = 2
+	x5 = 8
+	x6 = a * x5
+	x3 = x1 + x6
+	b = x3
+	x7 = b
+	return x7
+
+CG environment for main is:
+a : -3
+b : -8
+x1 : -4
+x3 : -7
+x5 : -5
+x6 : -6
+x7 : -9
+
+Emitting MIPS assembley code to test/f.asm
+
+

@@ -1,0 +1,961 @@
+mc: 16:56 3.27.2020. Compiling test/cond2_inv.mc in debug mode.
+
+The input program is:
+
+int main()
+{
+  int a;
+  bool b;
+  a = -(0, 2);
+  b = >(-(0, a), 3);
+  if (not(b)) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 230;
+    }
+  if (not(>(3, 3))) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 330;
+    }
+  if (not(>(4, 3))) then
+    {
+      print 430;
+    }
+  else
+    {
+      print 10;
+    }
+  if (not(>=(2, 3))) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 230;
+    }
+  if (>=(3, 3)) then
+    {
+      print 330;
+    }
+  else
+    {
+      print 10;
+    }
+  if (>=(4, 3)) then
+    {
+      print 430;
+    }
+  else
+    {
+      print 10;
+    }
+  if (<(2, 3)) then
+    {
+      print 230;
+    }
+  else
+    {
+      print 10;
+    }
+  if (<(3, 3)) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 330;
+    }
+  if (<(4, 3)) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 430;
+    }
+  if (<=(2, 3)) then
+    {
+      print 230;
+    }
+  else
+    {
+      print 10;
+    }
+  if (<=(3, 3)) then
+    {
+      print 330;
+    }
+  else
+    {
+      print 10;
+    }
+  if (<=(4, 3)) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 430;
+    }
+  return
+    0
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int main()
+{
+  int a;
+  bool b;
+  a =   let 
+      x1 : int = 0
+      x2 : int = 2
+      x3 : int = -(x1, x2)
+  in
+    x3
+  ;
+  b =   let 
+      x4 : int =
+        let 
+            x7 : int = 0
+            x8 : int = a
+            x9 : int = -(x7, x8)
+        in
+          x9
+      x5 : int = 3
+      x6 : int = >(x4, x5)
+  in
+    x6
+  ;
+  if (  let 
+      x10 : int = b
+      x11 : int = not(x10)
+  in
+    x11
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 230;
+    }
+  if (  let 
+      x12 : int =
+        let 
+            x14 : int = 3
+            x15 : int = 3
+            x16 : int = >(x14, x15)
+        in
+          x16
+      x13 : int = not(x12)
+  in
+    x13
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 330;
+    }
+  if (  let 
+      x17 : int =
+        let 
+            x19 : int = 4
+            x20 : int = 3
+            x21 : int = >(x19, x20)
+        in
+          x21
+      x18 : int = not(x17)
+  in
+    x18
+  ) then
+    {
+      print 430;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x22 : int =
+        let 
+            x24 : int = 2
+            x25 : int = 3
+            x26 : int = >=(x24, x25)
+        in
+          x26
+      x23 : int = not(x22)
+  in
+    x23
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 230;
+    }
+  if (  let 
+      x27 : int = 3
+      x28 : int = 3
+      x29 : int = >=(x27, x28)
+  in
+    x29
+  ) then
+    {
+      print 330;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x30 : int = 4
+      x31 : int = 3
+      x32 : int = >=(x30, x31)
+  in
+    x32
+  ) then
+    {
+      print 430;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x33 : int = 2
+      x34 : int = 3
+      x35 : int = <(x33, x34)
+  in
+    x35
+  ) then
+    {
+      print 230;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x36 : int = 3
+      x37 : int = 3
+      x38 : int = <(x36, x37)
+  in
+    x38
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 330;
+    }
+  if (  let 
+      x39 : int = 4
+      x40 : int = 3
+      x41 : int = <(x39, x40)
+  in
+    x41
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 430;
+    }
+  if (  let 
+      x42 : int = 2
+      x43 : int = 3
+      x44 : int = <=(x42, x43)
+  in
+    x44
+  ) then
+    {
+      print 230;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x45 : int = 3
+      x46 : int = 3
+      x47 : int = <=(x45, x46)
+  in
+    x47
+  ) then
+    {
+      print 330;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x48 : int = 4
+      x49 : int = 3
+      x50 : int = <=(x48, x49)
+  in
+    x50
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 430;
+    }
+  return
+    0
+}
+
+After the lifting phase:
+
+int main()
+{
+  int a;
+  bool b;
+  a =   let 
+      x1 : int = 0
+      x2 : int = 2
+      x3 : int = -(x1, x2)
+  in
+    x3
+  ;
+  b =   let 
+      x7 : int = 0
+      x8 : int = a
+      x9 : int = -(x7, x8)
+      x4 : int = x9
+      x5 : int = 3
+      x6 : int = >(x4, x5)
+  in
+    x6
+  ;
+  if (  let 
+      x10 : int = b
+      x11 : int = not(x10)
+  in
+    x11
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 230;
+    }
+  if (  let 
+      x14 : int = 3
+      x15 : int = 3
+      x16 : int = >(x14, x15)
+      x12 : int = x16
+      x13 : int = not(x12)
+  in
+    x13
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 330;
+    }
+  if (  let 
+      x19 : int = 4
+      x20 : int = 3
+      x21 : int = >(x19, x20)
+      x17 : int = x21
+      x18 : int = not(x17)
+  in
+    x18
+  ) then
+    {
+      print 430;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x24 : int = 2
+      x25 : int = 3
+      x26 : int = >=(x24, x25)
+      x22 : int = x26
+      x23 : int = not(x22)
+  in
+    x23
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 230;
+    }
+  if (  let 
+      x27 : int = 3
+      x28 : int = 3
+      x29 : int = >=(x27, x28)
+  in
+    x29
+  ) then
+    {
+      print 330;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x30 : int = 4
+      x31 : int = 3
+      x32 : int = >=(x30, x31)
+  in
+    x32
+  ) then
+    {
+      print 430;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x33 : int = 2
+      x34 : int = 3
+      x35 : int = <(x33, x34)
+  in
+    x35
+  ) then
+    {
+      print 230;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x36 : int = 3
+      x37 : int = 3
+      x38 : int = <(x36, x37)
+  in
+    x38
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 330;
+    }
+  if (  let 
+      x39 : int = 4
+      x40 : int = 3
+      x41 : int = <(x39, x40)
+  in
+    x41
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 430;
+    }
+  if (  let 
+      x42 : int = 2
+      x43 : int = 3
+      x44 : int = <=(x42, x43)
+  in
+    x44
+  ) then
+    {
+      print 230;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x45 : int = 3
+      x46 : int = 3
+      x47 : int = <=(x45, x46)
+  in
+    x47
+  ) then
+    {
+      print 330;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x48 : int = 4
+      x49 : int = 3
+      x50 : int = <=(x48, x49)
+  in
+    x50
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 430;
+    }
+  return
+    0
+}
+
+After the copyprop phase:
+
+int main()
+{
+  int a;
+  bool b;
+  a =   let 
+      x1 : int = 0
+      x2 : int = 2
+      x3 : int = -(x1, x2)
+  in
+    x3
+  ;
+  b =   let 
+      x7 : int = 0
+      x9 : int = -(x7, a)
+      x5 : int = 3
+      x6 : int = >(x9, x5)
+  in
+    x6
+  ;
+  if (  let 
+      x11 : int = not(b)
+  in
+    x11
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 230;
+    }
+  if (  let 
+      x14 : int = 3
+      x15 : int = 3
+      x16 : int = >(x14, x15)
+      x13 : int = not(x16)
+  in
+    x13
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 330;
+    }
+  if (  let 
+      x19 : int = 4
+      x20 : int = 3
+      x21 : int = >(x19, x20)
+      x18 : int = not(x21)
+  in
+    x18
+  ) then
+    {
+      print 430;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x24 : int = 2
+      x25 : int = 3
+      x26 : int = >=(x24, x25)
+      x23 : int = not(x26)
+  in
+    x23
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 230;
+    }
+  if (  let 
+      x27 : int = 3
+      x28 : int = 3
+      x29 : int = >=(x27, x28)
+  in
+    x29
+  ) then
+    {
+      print 330;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x30 : int = 4
+      x31 : int = 3
+      x32 : int = >=(x30, x31)
+  in
+    x32
+  ) then
+    {
+      print 430;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x33 : int = 2
+      x34 : int = 3
+      x35 : int = <(x33, x34)
+  in
+    x35
+  ) then
+    {
+      print 230;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x36 : int = 3
+      x37 : int = 3
+      x38 : int = <(x36, x37)
+  in
+    x38
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 330;
+    }
+  if (  let 
+      x39 : int = 4
+      x40 : int = 3
+      x41 : int = <(x39, x40)
+  in
+    x41
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 430;
+    }
+  if (  let 
+      x42 : int = 2
+      x43 : int = 3
+      x44 : int = <=(x42, x43)
+  in
+    x44
+  ) then
+    {
+      print 230;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x45 : int = 3
+      x46 : int = 3
+      x47 : int = <=(x45, x46)
+  in
+    x47
+  ) then
+    {
+      print 330;
+    }
+  else
+    {
+      print 10;
+    }
+  if (  let 
+      x48 : int = 4
+      x49 : int = 3
+      x50 : int = <=(x48, x49)
+  in
+    x50
+  ) then
+    {
+      print 10;
+    }
+  else
+    {
+      print 430;
+    }
+  return
+    0
+}
+
+After the control phase:
+
+main:	()
+	a = 0
+	b = 0
+	x1 = 0
+	x2 = 2
+	x3 = x1 - x2
+	a = x3
+	x7 = 0
+	x9 = x7 - a
+	x5 = 3
+	x6 = x9 > x5
+	b = x6
+	x11 = not b
+	jmpzero x11, l51
+	x54 = 10
+	print x54
+	jmp l52
+l51:	nop
+	x53 = 230
+	print x53
+l52:	nop
+	x14 = 3
+	x15 = 3
+	x16 = x14 > x15
+	x13 = not x16
+	jmpzero x13, l55
+	x58 = 10
+	print x58
+	jmp l56
+l55:	nop
+	x57 = 330
+	print x57
+l56:	nop
+	x19 = 4
+	x20 = 3
+	x21 = x19 > x20
+	x18 = not x21
+	jmpzero x18, l59
+	x62 = 430
+	print x62
+	jmp l60
+l59:	nop
+	x61 = 10
+	print x61
+l60:	nop
+	x24 = 2
+	x25 = 3
+	x26 = x24 >= x25
+	x23 = not x26
+	jmpzero x23, l63
+	x66 = 10
+	print x66
+	jmp l64
+l63:	nop
+	x65 = 230
+	print x65
+l64:	nop
+	x27 = 3
+	x28 = 3
+	x29 = x27 >= x28
+	jmpzero x29, l67
+	x70 = 330
+	print x70
+	jmp l68
+l67:	nop
+	x69 = 10
+	print x69
+l68:	nop
+	x30 = 4
+	x31 = 3
+	x32 = x30 >= x31
+	jmpzero x32, l71
+	x74 = 430
+	print x74
+	jmp l72
+l71:	nop
+	x73 = 10
+	print x73
+l72:	nop
+	x33 = 2
+	x34 = 3
+	x35 = x33 < x34
+	jmpzero x35, l75
+	x78 = 230
+	print x78
+	jmp l76
+l75:	nop
+	x77 = 10
+	print x77
+l76:	nop
+	x36 = 3
+	x37 = 3
+	x38 = x36 < x37
+	jmpzero x38, l79
+	x82 = 10
+	print x82
+	jmp l80
+l79:	nop
+	x81 = 330
+	print x81
+l80:	nop
+	x39 = 4
+	x40 = 3
+	x41 = x39 < x40
+	jmpzero x41, l83
+	x86 = 10
+	print x86
+	jmp l84
+l83:	nop
+	x85 = 430
+	print x85
+l84:	nop
+	x42 = 2
+	x43 = 3
+	x44 = x42 <= x43
+	jmpzero x44, l87
+	x90 = 230
+	print x90
+	jmp l88
+l87:	nop
+	x89 = 10
+	print x89
+l88:	nop
+	x45 = 3
+	x46 = 3
+	x47 = x45 <= x46
+	jmpzero x47, l91
+	x94 = 330
+	print x94
+	jmp l92
+l91:	nop
+	x93 = 10
+	print x93
+l92:	nop
+	x48 = 4
+	x49 = 3
+	x50 = x48 <= x49
+	jmpzero x50, l95
+	x98 = 10
+	print x98
+	jmp l96
+l95:	nop
+	x97 = 430
+	print x97
+l96:	nop
+	x99 = 0
+	return x99
+
+CG environment for main is:
+a : -6
+b : -11
+x1 : -3
+x11 : -12
+x13 : -18
+x14 : -15
+x15 : -16
+x16 : -17
+x18 : -24
+x19 : -21
+x2 : -4
+x20 : -22
+x21 : -23
+x23 : -30
+x24 : -27
+x25 : -28
+x26 : -29
+x27 : -33
+x28 : -34
+x29 : -35
+x3 : -5
+x30 : -38
+x31 : -39
+x32 : -40
+x33 : -43
+x34 : -44
+x35 : -45
+x36 : -48
+x37 : -49
+x38 : -50
+x39 : -53
+x40 : -54
+x41 : -55
+x42 : -58
+x43 : -59
+x44 : -60
+x45 : -63
+x46 : -64
+x47 : -65
+x48 : -68
+x49 : -69
+x5 : -9
+x50 : -70
+x53 : -14
+x54 : -13
+x57 : -20
+x58 : -19
+x6 : -10
+x61 : -26
+x62 : -25
+x65 : -32
+x66 : -31
+x69 : -37
+x7 : -7
+x70 : -36
+x73 : -42
+x74 : -41
+x77 : -47
+x78 : -46
+x81 : -52
+x82 : -51
+x85 : -57
+x86 : -56
+x89 : -62
+x9 : -8
+x90 : -61
+x93 : -67
+x94 : -66
+x97 : -72
+x98 : -71
+x99 : -73
+
+Emitting MIPS assembley code to test/cond2_inv.asm
+
+

@@ -1,0 +1,48 @@
+mc: 15:45 3.25.2020. Compiling see.mc in debug mode.
+
+Before the control phase:
+
+int f(int a)
+{
+  int c;
+  if (  let 
+      x7 : int = 7
+      x8 : int = <(a, x7)
+  in
+    x8
+  ) then
+    c =     let 
+        x4 : int = 3
+        x5 : int = +(a, x4)
+    in
+      x5
+    ;
+  else
+    c =     let 
+        x1 : int = 4
+        x2 : int = +(a, x1)
+    in
+      x2
+    ;
+  return
+    c
+}
+
+After the control phase:
+
+f:	(a)
+	c = 0
+	x7 = 7
+	x8 = a < x7
+	jmpzero x8, l1
+	x4 = 3
+	x5 = a + x4
+	c = x5
+	jmp l2
+l1:	nop
+	x1 = 4
+	x2 = a + x1
+	c = x2
+l2:	nop
+	x3 = c
+	return x3

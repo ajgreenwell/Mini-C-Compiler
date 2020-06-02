@@ -1,0 +1,180 @@
+mc: 11:33 2.22.2019. Compiling lift.mc in debug mode.
+
+The input program is:
+
+int f(int a, int b)
+{
+  int c;
+  c = +(+(2, a), *(4, b));
+  return
+    c
+}
+int main()
+{
+  return
+    1
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+f : int * int -> int
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int f(int a, int b)
+{
+  int c;
+  c =   let 
+      x0 : int =
+        let 
+            x6 : int = 2
+            x7 : int = a
+            x8 : int = +(x6, x7)
+        in
+          x8
+      x1 : int =
+        let 
+            x3 : int = 4
+            x4 : int = b
+            x5 : int = *(x3, x4)
+        in
+          x5
+      x2 : int = +(x0, x1)
+  in
+    x2
+  ;
+  return
+    c
+}
+int main()
+{
+  return
+    1
+}
+
+After the lifting phase:
+
+int f(int a, int b)
+{
+  int c;
+  c =   let 
+      x6 : int = 2
+      x7 : int = a
+      x8 : int = +(x6, x7)
+      x0 : int = x8
+      x3 : int = 4
+      x4 : int = b
+      x5 : int = *(x3, x4)
+      x1 : int = x5
+      x2 : int = +(x0, x1)
+  in
+    x2
+  ;
+  return
+    c
+}
+int main()
+{
+  return
+    1
+}
+
+After the copyprop phase:
+
+int f(int a, int b)
+{
+  int c;
+  c =   let 
+      x6 : int = 2
+      x8 : int = +(x6, a)
+      x3 : int = 4
+      x5 : int = *(x3, b)
+      x2 : int = +(x8, x5)
+  in
+    x2
+  ;
+  return
+    c
+}
+int main()
+{
+  return
+    1
+}
+
+After the control phase:
+
+f:	(a, b)
+	c = 0
+	x6 = 2
+	x8 = x6 + a
+	x3 = 4
+	x5 = x3 * b
+	x2 = x8 + x5
+	c = x2
+	x9 = c
+	return x9
+
+main:	()
+	x10 = 1
+	return x10
+
+CG environment is:
+% : not working ... 
+* : not working ... 
+** : not working ... 
++ : not working ... 
+- : not working ... 
+/ : not working ... 
+< : not working ... 
+<= : not working ... 
+<> : not working ... 
+== : not working ... 
+> : not working ... 
+>= : not working ... 
+a : not working ... 
+b : not working ... 
+c : not working ... 
+not : not working ... 
+x2 : not working ... 
+x3 : not working ... 
+x5 : not working ... 
+x6 : not working ... 
+x8 : not working ... 
+x9 : not working ... 
+
+CG environment is:
+% : not working ... 
+* : not working ... 
+** : not working ... 
++ : not working ... 
+- : not working ... 
+/ : not working ... 
+< : not working ... 
+<= : not working ... 
+<> : not working ... 
+== : not working ... 
+> : not working ... 
+>= : not working ... 
+not : not working ... 
+x10 : not working ... 
+
+Emitting MIPS assembley code to lift.asm
+
+

@@ -1,0 +1,249 @@
+mc: 16:57 3.27.2020. Compiling test/fact.mc in debug mode.
+
+The input program is:
+
+int fact(int n)
+{
+  if (==(n, 0)) then
+    return
+      1
+  else
+    return
+      *(n, fact(-(n, 1)))
+}
+int main()
+{
+  print fact(7);
+  print fact(8);
+  print fact(9);
+  print fact(10);
+  print fact(11);
+  return
+    fact(7)
+}
+
+Type environment is:
+% : int * int -> int
+* : int * int -> int
+** : int * int -> int
++ : int * int -> int
+- : int * int -> int
+/ : int * int -> int
+< : int * int -> bool
+<= : int * int -> bool
+<> : int * int -> bool
+== : int * int -> bool
+> : int * int -> bool
+>= : int * int -> bool
+fact : int -> int
+main :  -> int
+not : bool -> bool
+
+The program is well-typed.
+
+
+After the naming phase:
+
+int fact(int n)
+{
+  if (  let 
+      x9 : int = n
+      x10 : int = 0
+      x11 : int = ==(x9, x10)
+  in
+    x11
+  ) then
+    return
+      1
+  else
+    return
+      let 
+          x1 : int = n
+          x2 : int =
+            let 
+                x4 : int =
+                  let 
+                      x6 : int = n
+                      x7 : int = 1
+                      x8 : int = -(x6, x7)
+                  in
+                    x8
+                x5 : int = fact(x4)
+            in
+              x5
+          x3 : int = *(x1, x2)
+      in
+        x3
+}
+int main()
+{
+  print let x12 : int = 7 in let x13 : int = fact(x12) in x13;
+  print let x14 : int = 8 in let x15 : int = fact(x14) in x15;
+  print let x16 : int = 9 in let x17 : int = fact(x16) in x17;
+  print let x18 : int = 10 in let x19 : int = fact(x18) in x19;
+  print let x20 : int = 11 in let x21 : int = fact(x20) in x21;
+  return
+    let 
+        x22 : int = 7
+        x23 : int = fact(x22)
+    in
+      x23
+}
+
+After the lifting phase:
+
+int fact(int n)
+{
+  if (  let 
+      x9 : int = n
+      x10 : int = 0
+      x11 : int = ==(x9, x10)
+  in
+    x11
+  ) then
+    return
+      1
+  else
+    return
+      let 
+          x1 : int = n
+          x6 : int = n
+          x7 : int = 1
+          x8 : int = -(x6, x7)
+          x4 : int = x8
+          x5 : int = fact(x4)
+          x2 : int = x5
+          x3 : int = *(x1, x2)
+      in
+        x3
+}
+int main()
+{
+  print let x12 : int = 7 in let x13 : int = fact(x12) in x13;
+  print let x14 : int = 8 in let x15 : int = fact(x14) in x15;
+  print let x16 : int = 9 in let x17 : int = fact(x16) in x17;
+  print let x18 : int = 10 in let x19 : int = fact(x18) in x19;
+  print let x20 : int = 11 in let x21 : int = fact(x20) in x21;
+  return
+    let 
+        x22 : int = 7
+        x23 : int = fact(x22)
+    in
+      x23
+}
+
+After the copyprop phase:
+
+int fact(int n)
+{
+  if (  let 
+      x10 : int = 0
+      x11 : int = ==(n, x10)
+  in
+    x11
+  ) then
+    return
+      1
+  else
+    return
+      let 
+          x7 : int = 1
+          x8 : int = -(n, x7)
+          x5 : int = fact(x8)
+          x3 : int = *(n, x5)
+      in
+        x3
+}
+int main()
+{
+  print let x12 : int = 7 in let x13 : int = fact(x12) in x13;
+  print let x14 : int = 8 in let x15 : int = fact(x14) in x15;
+  print let x16 : int = 9 in let x17 : int = fact(x16) in x17;
+  print let x18 : int = 10 in let x19 : int = fact(x18) in x19;
+  print let x20 : int = 11 in let x21 : int = fact(x20) in x21;
+  return
+    let 
+        x22 : int = 7
+        x23 : int = fact(x22)
+    in
+      x23
+}
+
+After the control phase:
+
+fact:	(n)
+	x10 = 0
+	x11 = n == x10
+	jmpzero x11, l24
+	x27 = 1
+	return x27
+	jmp l25
+l24:	nop
+	x7 = 1
+	x8 = n - x7
+	x5 = call fact(x8)
+	x3 = n * x5
+	x26 = x3
+	return x26
+l25:	nop
+
+main:	()
+	x12 = 7
+	x13 = call fact(x12)
+	x28 = x13
+	print x28
+	x14 = 8
+	x15 = call fact(x14)
+	x29 = x15
+	print x29
+	x16 = 9
+	x17 = call fact(x16)
+	x30 = x17
+	print x30
+	x18 = 10
+	x19 = call fact(x18)
+	x31 = x19
+	print x31
+	x20 = 11
+	x21 = call fact(x20)
+	x32 = x21
+	print x32
+	x22 = 7
+	x23 = call fact(x22)
+	x33 = x23
+	return x33
+
+CG environment for fact is:
+n : 2
+x10 : -1
+x11 : -2
+x26 : -8
+x27 : -3
+x3 : -7
+x5 : -6
+x7 : -4
+x8 : -5
+
+CG environment for main is:
+x12 : -1
+x13 : -2
+x14 : -4
+x15 : -5
+x16 : -7
+x17 : -8
+x18 : -10
+x19 : -11
+x20 : -13
+x21 : -14
+x22 : -16
+x23 : -17
+x28 : -3
+x29 : -6
+x30 : -9
+x31 : -12
+x32 : -15
+x33 : -18
+
+Emitting MIPS assembley code to test/fact.asm
+
+

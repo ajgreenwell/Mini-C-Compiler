@@ -1,0 +1,2 @@
+(** @canonical Lib.Assert *)
+module Assert = Lib__Assert
