@@ -1,14 +1,5 @@
-# CSCI 3366 Programming Languages
-
-### MiniC Compiler Project (56 Points Total)
-
-##### R. Muller
-
----
-
-> The miniC project was greatly improved in April, 2017 by Tiane (Art) Zhu '17, a student in the Spring 2017 section of CSCI 3366. Tiane ran down several bugs, added features and developed a test system. His contributions are greatly appreciated.
-
----
+### MiniC Compiler
+## In collaboration with: Prof. Robert Muller
 
 MiniC is a simplified dialect of C. It includes
 
@@ -82,14 +73,14 @@ int main() {
 The overall structure of the miniC compiler is
 
 ```
-miniC pgm => Lexer ->
-             Parser ->
-             TypeChecker ->
-             Name ->
-             Lift ->
-             CopyProp ->
-             Control ->
-             Codegen => MIPS pgm
+miniC program => Lexer ->
+                 Parser ->
+                 TypeChecker ->
+                 Name ->
+                 Lift ->
+                 CopyProp ->
+                 Control ->
+                 Codegen => MIPS program
 ```
 
 The miniC project is a four-part project implementing four of the last five of these components of the compiler. The four parts are:
@@ -151,55 +142,7 @@ bin/            dune-project    solved*         try/
 
 This creates `foo.asm` and `foo.dbg`. The `dbg` file shows the compiler intermediate representations at each of the major phases of compilation.
 
-#### Trying Individual Phases of the Compiler
-
-The harness code for the miniC compiler is designed to allow you to work on any of the 4 translation phases of the compiler before the earlier phases are finished. If your compiler code compiles, you can type 
-
-```bash
-> cd src
-```
-
-and then any of
-
-```bash
-> dune exec bin/main.exe try name
-> dune exec bin/main.exe try lift
-> dune exec bin/main.exe try control
-> dune exec bin/main.exe try codegen
-```
-
-Such an invocation will run the specified phase of the compiler on a typical data structure that would've been produced by the previous translation phase. For example, the commands
-
-```bash
-> cd src
-> dune exec bin/main.exe try control
-```
-
-applies your `Control.translate` function to an AST data structure that might have been created by the `Lift.translate` function and pretty-prints both the *pre* and *post* data structures to the file `see.dbg` for your inspection. These simple input data structures for testing are built in the support file `src/bin/try.ml`. 
-
-> Heads up! There is only one such test data structure for each translation phase, feel free to add more test structures as you wish.
-
-For the fixed test data structures, you can compare the results of your translation to reference translations in the `src/try/` directory. For example, if you're testing your `Name.translate` function, compare `see.dbg` to what is in `src/try/name.dbg`.
-
-### Project Format
-
-This project has the 4 parts specified above:1. Name, 2. Lift, 3. Control and 4. Codegen. 
-
-+ Part 1 (Name, this part) includes a master distribution of the harness code for the whole compiler project. Your solution to each of the four parts of the project will involve developing code in files in this master repo. In particular, in `src/bin/name.ml`, then `src/bin/lift.ml` , `src/bin/control.ml` and finally `src/bin/codegen.ml`.
-
-+ The distribution of part 2 (Lift) will include a `src/` directory containing a solution, i.e., `src/name.ml`, to part 1. If you wish to use this solution to assist in part 2, copy the file to the `src/bin/` directory of the compiler harness;
-+ The distribution of part 3 (Control) will include a `src/` directory containing solutions to both parts 1 and parts 2, i.e., both `src/name.ml` and `src/lift.ml`. If you wish to use these solutions, copy these files to the `src/bin/` directory of the compiler harness;
-+ The distribution of part 4 (Codegen) will include a `src/` directory containing solutions to parts 1, 2 and 3. If you wish to use these solutions, copy these files to the `src/bin/` directory of the compiler harness.
-
----
-
-#### What to Submit
-
-For each part, each team should push **one** copy of the project harness repo by the due date with the commit message "Final: NAMES", where NAMES includes the full names of both participants.
-
----
-
-### Part 1: (14 Points) Name --- due Friday April 3, 2020, 6PM
+### Part 1: Naming Phase
 
 The naming phase of the compiler is implemented by the source-to-source transformation
 
@@ -219,35 +162,21 @@ The recursive translation here tends to give rise to lots of nested-lets. For ex
 
 ```
 let x1 = let x2 = 2 in
-         let x3 = 3 in 
-         let x4 = +(x2, x3) 
-         in 
-         x4 in 
+         let x3 = 3 in
+         let x4 = +(x2, x3)
+         in
+         x4 in
 let x5 = 4 in
-let x6 = +(x1, x5) 
+let x6 = +(x1, x5)
 in
 x6
 ```
 
-**Notes**: 
-
-1. After this translation, all of the operands of operators and function calls are simple variables.
-
-2. You can create a fresh variable by calling the harness code function: 
-
-   ```
-   Symbol.fresh : unit -> Symbol.t
-   ```
-
-3. The harness code in `name.ml` also replaces all `&&` and ``||`` nodes with let and if nodes; leave that code unchanged.
-
 ---
 
-### Part 2: (14 Points): Lift --- due Friday April 10, 2020, 6PM
+### Part 2: Lifting Phase
 
-> A problem set repo for part 2 will be published on Friday April 3. It will include a solution for Part 1 in the file`src/name.ml`. Feel free to copy this file to your `src/bin/` directory so that you can use it to support your solution to part 2. Or feel free to use your own solution.
-
-The lifting phase of the compiler, is implemented by the source-to-source translation
+The lifting phase of the compiler is implemented by the source-to-source translation
 
 ```
 Lift.translate : Ast.program -> Ast.program 
@@ -264,9 +193,7 @@ The result of this transformation should have no terms of the form on the left o
 ---
 
 
-### Part 3: (14 Points): Control -- due Friday April 17, 2020, 6PM
-
-> A problem set repo for part 3 will be published on Friday April 10. It will include a solution for Part 2 in the file`src/lift.ml`. Feel free to copy this file to your `src/bin/` directory so that you can use it to support your solution to part 3. Or feel free to use your own solution.
+### Part 3: Control Phase
 
 The transformations after naming and lifting translate away from the compiler intermediate language of `Ast` toward more machine-centric languages.
 
@@ -296,9 +223,7 @@ This translation makes the control-flow that is implicit in `Ast.statement` exp
 
 ---
 
-### Part 4 (14 Points): Codegen -- due Friday May 1, 2020 6PM
-
-> A problem set repo for part 4 will be published on Friday April 17. It will include a solution for Part 3 in the file`src/control.ml`. Feel free to copy this file to your `src/bin/` directory so that you can use it to support your solution to part 4. Or feel free to use your own solution.
+### Part 4: Code Generation Phase
 
 The `Codegen` translation deals with storage allocation for procedure and function variables as well as function call and return protocols. For the purposes of this gut-simple compiler, we will allocate storage for all variables, both programmer supplied and the temporaries generated by the compiler, in an activation record allocated on the call stack. The structure of an activation record is standard
 
@@ -335,43 +260,10 @@ where the parts labeled with `A` (above left) are managed by the caller and th
 
    3. before the called procedure returns.
 
-   - **Procedure call**: code is required to push the arguments onto the call stack, to push the return address (`ra`) register and then transfer to the called procedure using a jump and link (`jal`) instruction. 
+   - **Procedure call**: code is required to push the arguments onto the call stack, to push the return address (`ra`) register and then transfer to the called procedure using a jump and link (`jal`) instruction.
 
      The code following the `jal` must restore the `ra` register and deallocate the storage for the actual arguments (thereby resetting the stack pointer (`sp`) register.
 
    - **Procedure entry**: code is required to store the callers frame pointer and then allocate storage at the bottom of the activation record for all local variables (including temporaries). Note that the activation record on the stack will require one 4-byte word of memory for each variable introduced by the programmer and likewise for each temporary name introduced by earlier phases of the compiler. You're going to need to find all of the temporaries in the `Quads.procedure` allocating a frame pointer offset for each. These variable offsets are best stored in an environment.
 
    - **Procedure return**: if the procedure is a function then the value to be returned to the caller must be stored in the value register `$v0` register and all storage for local variables must be removed from the stack, leaving the `sp` register pointing at the caller's saved frame pointer on the stack. The return is completed with a `jr` instruction.
-
-   #### The test system
-
-When you're finishing up the final part of the compiler project, you'll want to run the test system to compare your final compilation results against reference results. Type
-
-   ```bash
-   > cd src
-   > ./test/test.sh
-   ```
-
-This compiles all of the miniC source files in`test/`, pipes them through the MIPS simulator and compares the results against known results in `test/ans/`. Your compiler passes the test system if the output looks like:
-
-   ```bash
-   ---------- a ----------
-   ---------- b ----------
-   ---------- basic_ops ----------
-   ---------- c ----------
-   ---------- cond1 ----------
-   ---------- cond2 ----------
-   ---------- cond2_inv ----------
-   ---------- d ----------
-   ---------- e ----------
-   ---------- f ----------
-   ---------- fact ----------
-   ---------- g ----------
-   ---------- gcd ----------
-   ---------- gcdImperative ----------
-   ---------- t1 ----------
-   ---------- totient ----------
-   ---------- threefacts ----------
-   ```
-
-If you see this, congrats! you're done!
