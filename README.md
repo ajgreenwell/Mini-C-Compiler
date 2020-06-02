@@ -1,5 +1,5 @@
-### MiniC Compiler
-## In collaboration with: Prof. Robert Muller
+## MiniC Compiler
+### In collaboration with: Prof. Robert Muller
 
 MiniC is a simplified dialect of C. It includes
 
